@@ -6,8 +6,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-/*/*.Crea una galería de imágenes en una cuadrícula usando GridView. Aplica
-padding a cada imagen y un borde redondeado usando BoxDecoration.*/*/
+/*.Crea una galería de imágenes en una cuadrícula usando GridView. Aplica
+padding a cada imagen y un borde redondeado usando BoxDecoration.*/
   @override
   Widget build(BuildContext context) {
     return  const MaterialApp(
@@ -24,7 +24,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Ejercicio 12",
-        style: TextStyle(fontSize: 40),),
+        style: TextStyle(fontSize: 40),
+      ),
       ),
       body: GridView.count(
           crossAxisCount: 2,
