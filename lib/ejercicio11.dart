@@ -82,7 +82,7 @@ class HomePageState extends State<HomePage> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Escribe tu correo";
-                  } else if (RegExp(r'^[a-zA-Z0-9]+@gmail\.com$').hasMatch(value)) {
+                  } else if (!RegExp(r'^[a-zA-Z0-9]+@gmail\.com$').hasMatch(value)) {
                     return "Ingrese un correo válido";
                   }
                   return null;

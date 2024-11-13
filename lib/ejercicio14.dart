@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -48,14 +46,11 @@ class MyHomePageState extends State<MyHomePage> {
   //METODO PARA VALIDAR EL FORMULARIO
   void submitForm() {
     if(formKey.currentState!.validate()) {
-      String nombre = nameController.text;
-      String email = emailController.text;
-      String password = passwordController.text;
-      String password2 = password2Controller.text;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Formulario enviado correctamente"))
+      );
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Formulario enviado correctamente"))
-    );
+
   }
   @override
   Widget build(BuildContext context) {
