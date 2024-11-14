@@ -47,7 +47,7 @@ class _HomepageState extends State<HomePage> {
       body: ListView.separated(
           //PIDE UN CONSTRUCTOR DE CADA ITEM QUE VA A IR EN LA LISTA, QUE PIDE CONTEXTO E INDEX (POSICIÓN DE LA LISTA PARA IDENTIFICAR EL ITEM)
           itemBuilder: (context, index) {
-            //ITEM BUILDER VA A CONSTRUIR CADA ITEM ESPECIFICADO DENTRO
+            //ITEM BUILDER VA A CONSTRUIR CADA ITEM DE LA LISTA
             return ListTile(
               leading: Checkbox(
                   //EL VALUE DE CHECKBOX ES UN BOOLEANO, POR LO TANTO USAMOS EL BOOLEANO DE CADA ITEM
@@ -168,7 +168,7 @@ class _HomepageState extends State<HomePage> {
   }
 
 //---------------------------------------------------------------------------------------------------------------------
-  String _comprobarTarea(String titulo, {bool completado = false}) {
+  String _comprobarTarea(String titulo) {
     String tituloOriginal = titulo;
     int contador=1;
     for (Map<String,dynamic> tarea in tareas) {

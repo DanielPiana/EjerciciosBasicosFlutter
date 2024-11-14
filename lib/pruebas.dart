@@ -1,124 +1,88 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+/// Flutter code sample for [LinearProgressIndicator].
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+void main() => runApp(const ProgressIndicatorApp());
+
+class ProgressIndicatorApp extends StatelessWidget {
+  const ProgressIndicatorApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+          useMaterial3: true, colorSchemeSeed: const Color(0xff6750a4)),
+      home: const ProgressBarPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class ProgressBarPage extends StatefulWidget {
+  const ProgressBarPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomepageState();
+  State<ProgressBarPage> createState() => _ProgressBarPageState();
 }
 
-class _HomepageState extends State<HomePage> {
-  // Lista para almacenar las tareas
-  List<Map<String, dynamic>> tasks = [
-    {"title": "Tarea 1", "isCompleted": false},
-    {"title": "Tarea 2", "isCompleted": false},
-    {"title": "Tarea 3", "isCompleted": false},
-  ];
+class _ProgressBarPageState extends State<ProgressBarPage> {
+  // Variable para controlar el progreso (de 0.0 a 1.0)
+  double progress = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Lista de tareas",
-          style: TextStyle(fontSize: 40),
-        ),
+        title: const Text('Barra de Progreso'),
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
-      body: ListView.separated(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              tasks[index]["title"],
-              style: TextStyle(
-                decoration: tasks[index]["isCompleted"]
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
-                color: tasks[index]["isCompleted"] ? Colors.grey : Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Mostrar el porcentaje actual
+            Text(
+              '${(progress * 100).toInt()}%',
+              style: const TextStyle(fontSize: 24),
+            ),
+            const SizedBox(height: 20),
+            // Barra de progreso
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 20, // Hacer la barra más gruesa
+                backgroundColor: Colors.grey[300],
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
               ),
             ),
-            leading: Checkbox(
-              value: tasks[index]["isCompleted"],
-              onChanged: (bool? value) {
+            const SizedBox(height: 20),
+            // Botón para incrementar el progreso
+            ElevatedButton(
+              onPressed: () {
                 setState(() {
-                  tasks[index]["isCompleted"] = value;
+                  // Aumentar el progreso en 10% (0.1)
+                  if (progress < 1.0) {
+                    progress += 0.1;
+                    // Asegurarnos de que no pase de 1.0
+                    if (progress > 1.0) progress = 1.0;
+                  }
                 });
               },
+              child: const Text('Aumentar Progreso'),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider(
-            color: Colors.grey,
-          );
-        },
-        itemCount: tasks.length,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddTaskDialog();
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  void _showAddTaskDialog() {
-    String newTask = '';
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Añadir nueva tarea'),
-          content: TextField(
-            onChanged: (value) {
-              newTask = value;
-            },
-            decoration: const InputDecoration(hintText: 'Escribe la nueva tarea'),
-          ),
-          actions: [
-            TextButton(
+            // Botón para reiniciar el progreso
+            ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                setState(() {
+                  progress = 0.0;
+                });
               },
-              child: const Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (newTask.isNotEmpty) {
-                  setState(() {
-                    tasks.add({
-                      "title": newTask,
-                      "isCompleted": false,
-                    });
-                  });
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text('Añadir'),
+              child: const Text('Reiniciar'),
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 }
