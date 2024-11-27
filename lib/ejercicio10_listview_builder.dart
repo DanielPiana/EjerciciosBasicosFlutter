@@ -66,7 +66,6 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                   blurRadius: 10,
                   offset: Offset(2,2),
-
                 )
               ]
             ),

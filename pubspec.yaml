@@ -7,6 +7,8 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  provider: ^6.1.2
+  scoped_model: ^2.0.0
   flutter:
     sdk: flutter
 
