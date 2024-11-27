@@ -4,32 +4,34 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      // Este widget envuelve la raiz de la aplicacion y proporciona un modelo
-      //Se una para crear la instancia del modelo para que se pueda acceder a el
+      // ESTE WIDGET ENVUELVE LA RAÍZ DE LA APLICACIÓN Y PROPORCIONA UN MODELO
+      // SE USA PARA CREAR LA INSTANCIA DEL MODELO PARA QUE SE PUEDA ACCEDER A ÉL
       create: (context) => ContadorProvider(),
-      //Widget que estará envuelto por ChangeNotifierProvider
+      // WIDGET QUE ESTARÁ ENVUELTO POR CHANGENOTIFIERPROVIDER
       child: ContadorApp(),
     ),
   );
 }
-/*Dentro de ContadorApp, todos los widgets hijos (como ContadorDisplay
-e IncrementarButton) pueden acceder al modelo ContadorProvider usando el contexto.*/
+/*DENTRO DE ContadorApp, TODOS LOS WIDGETS HIJOS (COMO ContadorDisplay
+E IncrementarButton) PUEDEN ACCEDER AL MODELO ContadorProvider USANDO EL CONTEXTO.*/
 
-//Esta clase define la estructura básica de la aplicación
+// ESTA CLASE DEFINE LA ESTRUCTURA BÁSICA DE LA APLICACIÓN
 class ContadorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('ProviderEjemplo')),
-        body: ContadorDisplay(), //Define el contador
-        floatingActionButton: IncrementarButton(), //Define el botón
+        body: ContadorDisplay(), // DEFINE EL CONTADOR
+        floatingActionButton: IncrementarButton(), // DEFINE EL BOTÓN
       ),
     );
   }
 }
 
-//Muestra el valor actual del contador
+/* MUESTRA EL VALOR ACTUAL DEL CONTADOR
+ * ESCUCHA LOS CAMBIOS EN EL MODELO ContadorProvider CON context.watch<ContadorProvider>()
+ * OBTIENE EL VALOR ACTUAL DE contador Y LO SETEA */
 class ContadorDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class IncrementarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
+        // ACCEDE AL METODO incrementar DEL MODELO
         context.read<ContadorProvider>().incrementar();
       },
       child: Icon(Icons.add),
@@ -52,6 +55,8 @@ class IncrementarButton extends StatelessWidget {
   }
 }
 
+/* CLASE QUE EXTIENDE DE CHANGENOTIFIER PARA PODER NOTIFICAR A LOS WIDGETS
+ * DE CUALQUIER CAMBIO EN LA VARIABLE _contador */
 class ContadorProvider extends ChangeNotifier {
   int _contador = 5;
 
