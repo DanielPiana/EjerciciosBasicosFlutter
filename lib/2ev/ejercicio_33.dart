@@ -12,6 +12,7 @@ void main() {
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,42 +32,52 @@ class HomePage extends StatelessWidget {
             ));
   }
 }
+
 class ButtonDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(onPressed: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => CrearTarea()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => CrearTarea()));
     });
   }
 }
+
 class ListaDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final leading = context.watch<TareaProvider>()._leading;
+    final lista = context.watch<TareaProvider>()._listaTareas;
     return Column(
       children: [
-        ListTile(
-          leading: Text(leading),
-        ),
+        Expanded(
+          child: ListView.builder(
+              itemCount: lista.length,
+              padding: EdgeInsets.all(10),
+              itemBuilder: (context, index) {
+                final string = lista[index];
+                return ListTile(
+                    leading: Text(string)
+                );
+              }),
+        )
       ],
     );
   }
 }
 
 class TareaProvider extends ChangeNotifier {
-  String _leading = "leading";
+  late List<String> _listaTareas = [
+    "Tarea 1"
+  ];
 
-  String get leading => _leading;
+  List<String> get listaTareas => _listaTareas;
 
-  set leading(String value) {
-    _leading = value;
+  set listaTareas(List<String> value) {
+    _listaTareas = value;
   }
 
-  void cambiarLeading(String nuevoLeading) {
-    _leading = nuevoLeading;
+  void agregarTarea(String nuevoLeading) {
+    _listaTareas.add(nuevoLeading);
     notifyListeners();
   }
 }
@@ -96,7 +107,7 @@ class CrearTarea extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
-                context.read<TareaProvider>().cambiarLeading(_controller.text.toString());
+                context.read<TareaProvider>().agregarTarea(_controller.text.toString());
               },
               child: Text("Agregar"))
         ],
